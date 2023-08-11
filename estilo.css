@@ -1,0 +1,70 @@
+/* ... (estilos gerais) ... */
+
+.tabs {
+    overflow: hidden;
+    background-color: #f00; /* Vermelho */
+  }
+  
+  .tablink {
+    background-color: #f00;
+    color: #fff; /* Branco */
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+  }
+  
+  .tablink:hover {
+    background-color: #c00; /* Tom mais escuro de vermelho */
+  }
+  
+  .tabcontent {
+    display: none;
+    padding: 2rem;
+    background-color: #fff;
+    border: 1px solid #00f; /* Azul */
+    color: #000; /* Preto */
+  }
+  
+  .tabcontent h2 {
+    color: #00f; /* Azul */
+  }
+
+  /* ... (estilos gerais) ... */
+
+/* Estilos para dispositivos móveis */
+@media (max-width: 768px) {
+    .tabs {
+      background-color: #f00; /* Vermelho */
+    }
+    
+    .tablink {
+      background-color: #f00;
+      color: #fff; /* Branco */
+      float: none;
+      display: block;
+      width: 100%;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 10px;
+      text-align: center;
+      transition: 0.3s;
+    }
+    
+    .tabcontent {
+      padding: 1rem;
+      border: 1px solid #00f; /* Azul */
+    }
+    
+    table {
+      width: 100%;
+    }
+    
+    th, td {
+      padding: 0.5rem;
+    }
+  }
+  

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="estilo.css">
+  <title>Controle de Produtos</title>
+</head>
+<body>
+  <header>
+    <h1>Controle de Produtos</h1>
+  </header>
+  
+  <!-- ... (código anterior) ... -->
+
+<main>
+  <nav class="tabs">
+    <button class="tablink" onclick="openTab(event, 'cadastro')">Cadastrar Produto</button>
+    <button class="tablink" onclick="openTab(event, 'pesquisa')">Pesquisar Produto</button>
+  </nav>
+  
+  <section id="cadastro" class="tabcontent">
+    <h2>Cadastrar Produto</h2>
+    <form>
+      <label for="codigo">Código do Produto:</label>
+      <input type="text" id="codigo" name="codigo" required>
+      
+      <label for="nome">Nome do Produto:</label>
+      <input type="text" id="nome" name="nome" required>
+      
+      <label for="vencimento">Data de Vencimento:</label>
+      <input type="date" id="vencimento" name="vencimento" required>
+      
+      <button type="submit">Cadastrar</button>
+    </form>
+  </section>
+  
+  <section id="pesquisa" class="tabcontent">
+    <h2>Pesquisar Produto</h2>
+    <input type="text" id="pesquisar" placeholder="Digite o nome do produto">
+    <button type="submit">Pesquisar</button>
+  </section>
+  
+  <section id="demonstracao" class="tabcontent">
+    <h2>Produto Pesquisado</h2>
+    <div id="info-produto">
+      <!-- As informações do produto pesquisado serão exibidas aqui dinamicamente -->
+    </div>
+  </section>
+</main>
+
+<script>
+function openTab(event, tabName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(tabName).style.display = "block";
+  event.currentTarget.className += " active";
+}
+
+function searchProduct() {
+  // Lógica para pesquisar o produto e exibir as informações na aba de demonstração
+}
+</script>
+
+<!-- ... (resto do código) ... -->
+
+</body>
+</html>
