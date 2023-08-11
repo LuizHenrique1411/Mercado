@@ -67,4 +67,9 @@
       padding: 0.5rem;
     }
   }
-  
+
+  .logodomercado{
+    text-align: center;
+    justify-content: center;
+    display: flex;
+  }
