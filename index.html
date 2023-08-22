@@ -12,24 +12,24 @@
     <img src="https://img.freepik.com/vetores-gratis/logotipo-da-empresa-de-negocios-de-supermercado-organico_23-2148462396.jpg?w=2000" alt="Logo" width="300px">
   </div>
   
-  
 <main>
   <nav class="tabs">
     <button class="tablink" onclick="openTab(event, 'cadastro')">Cadastrar Produto</button>
     <button class="tablink" onclick="openTab(event, 'pesquisa')">Pesquisar Produto</button>
+    <button class="tablink" onclick="openTab(event, 'lista')">Lista de Produtos</button>
   </nav>
   
   <section id="cadastro" class="tabcontent">
     <h2>Cadastrar Produto</h2>
     <form>
       <label for="codigo">Código do Produto:</label>
-      <input type="text" id="codigo" name="codigo" required>
+      <input type="text" id="codigo" name="codigo" required><br><br>
       
       <label for="nome">Nome do Produto:</label>
-      <input type="text" id="nome" name="nome" required>
+      <input type="text" id="nome" name="nome" required><br><br>
       
       <label for="vencimento">Data de Vencimento:</label>
-      <input type="date" id="vencimento" name="vencimento" required>
+      <input type="date" id="vencimento" name="vencimento" required><br><br>
       
       <button type="submit">Cadastrar</button>
     </form>
@@ -41,11 +41,62 @@
     <button type="submit">Pesquisar</button>
   </section>
   
-  <section id="demonstracao" class="tabcontent">
-    <h2>Produto Pesquisado</h2>
-    <div id="info-produto">
-      <!-- As informações do produto pesquisado serão exibidas aqui dinamicamente -->
-    </div>
+  <section id="lista" class="tabcontent">
+    <h2>Lista de Produtos</h2>
+    <label for="filtroSetor">Filtrar por Setor:</label>
+    <select id="filtroSetor" onchange="filterProductsBySetor()">
+      <option value="todos">Todos</option>
+      <option value="corredor1">Corredor 1</option>
+      <option value="corredor2">Corredor 2</option>
+      <option value="corredor3">Corredor 3</option>
+      <option value="geladeira1">Geladeira 1</option>
+      <option value="geladeira2">Geladeira 2</option>
+      <option value="geladeira3">Geladeira 3</option>
+    </select>
+    <table>
+      <tr>
+        <th>Código</th>
+        <th>Nome</th>
+        <th>Data de Vencimento</th>
+        <th>Setor</th>
+        <th>Editar</th>
+        <th>Deletar</th>
+      </tr>
+      <tr>
+        <td>001</td>
+        <td>Produto A</td>
+        <td class="produtovalido">2023-08-31</td>
+        <td>Corredor 1</td>
+        <td><button onclick="editProduct(1)">Editar</button></td>
+        <td><button onclick="deleteProduct(1)">Deletar</button></td>
+      </tr>
+      <tr>
+        <td>002</td>
+        <td>Produto B</td>
+        <td class="produtovalido">2023-09-30</td>
+        <td>Geladeira 2</td>
+        <td><button onclick="editProduct(2)">Editar</button></td>
+        <td><button onclick="deleteProduct(2)">Deletar</button></td>
+      </tr>
+      <tr>
+        <td>003</td>
+        <td>Produto C</td>
+        <td class="produtovencido">2023-12-08</td>
+        <td>Corredor 3</td>
+        <td><button onclick="editProduct(3)">Editar</button></td>
+        <td><button onclick="deleteProduct(3)">Deletar</button></td>
+      </tr>
+
+      <tr>
+        <td>003</td>
+        <td>Produto D</td>
+        <td class="produtovencido">2023-12-08</td>
+        <td>Corredor 2</td>
+        <td><button onclick="editProduct(3)">Editar</button></td>
+        <td><button onclick="deleteProduct(3)">Deletar</button></td>
+      </tr>
+      <!-- Mais linhas da tabela aqui -->
+    </table>
   </section>
 </main>
 
@@ -64,9 +115,43 @@ function openTab(event, tabName) {
   event.currentTarget.className += " active";
 }
 
-function searchProduct() {
-  // Lógica para pesquisar o produto e exibir as informações na aba de demonstração
+// Adicione event listeners aos botões de aba
+document.getElementById("cadastroBtn").addEventListener("click", function(event) {
+  openTab(event, 'cadastro');
+});
+
+document.getElementById("pesquisaBtn").addEventListener("click", function(event) {
+  openTab(event, 'pesquisa');
+});
+
+document.getElementById("listaBtn").addEventListener("click", function(event) {
+  openTab(event, 'lista');
+});
+
+function filterProductsBySetor() {
+  var selectElement = document.getElementById("filtroSetor");
+  var selectedSetor = selectElement.value.toLowerCase();
+  var table = document.querySelector("#lista table");
+  var rows = table.querySelectorAll("tr");
+
+  rows.forEach(function(row, index) {
+    if (index === 0) return; // Pula a primeira linha (cabeçalho)
+    var setorColumn = row.cells[3];
+    var setor = setorColumn.textContent.toLowerCase().replace(" ","");
+
+console.log(row.style.display)
+    if (selectedSetor == "todos") {
+      row.style.display = "";
+    } else if(selectedSetor == setor){
+        row.style.display = "";
+    }else {
+      row.style.display = "none";
+    }
+  });
+  
 }
+</script>
+
 </script>
 
 <!-- ... (resto do código) ... -->

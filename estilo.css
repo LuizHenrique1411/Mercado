@@ -1,75 +1,109 @@
-/* ... (estilos gerais) ... */
-
-.tabs {
-    overflow: hidden;
-    background-color: #f00; /* Vermelho */
+/* Estilo geral */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+  }
+  
+  .logomercado {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .logomercado img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .tabs {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
   }
   
   .tablink {
-    background-color: #f00;
-    color: #fff; /* Branco */
-    float: left;
+    background-color: #007bff;
+    color: #fff;
     border: none;
-    outline: none;
+    padding: 10px 20px;
+    margin: 0 5px; /* Adiciona espaço entre os botões */
     cursor: pointer;
-    padding: 14px 16px;
-    transition: 0.3s;
+    border-radius: 4px;
+    transition: background-color 0.3s;
   }
   
-  .tablink:hover {
-    background-color: #c00; /* Tom mais escuro de vermelho */
+  .tablink.active {
+    background-color: #0056b3;
   }
   
   .tabcontent {
     display: none;
-    padding: 2rem;
-    background-color: #fff;
-    border: 1px solid #00f; /* Azul */
-    color: #000; /* Preto */
+    padding: 20px;
   }
   
-  .tabcontent h2 {
-    color: #00f; /* Azul */
-  }
-
-  /* ... (estilos gerais) ... */
-
-/* Estilos para dispositivos móveis */
-@media (max-width: 768px) {
+  /* Estilo para desktop */
+  @media (min-width: 768px) {
     .tabs {
-      background-color: #f00; /* Vermelho */
+      justify-content: flex-start;
+      padding-left: 20px;
     }
-    
+  }
+  
+  /* Estilo para dispositivos móveis */
+  @media (max-width: 767px) {
+    .tabs {
+      flex-direction: column;
+      align-items: center;
+    }
+  
     .tablink {
-      background-color: #f00;
-      color: #fff; /* Branco */
-      float: none;
-      display: block;
-      width: 100%;
-      border: none;
-      outline: none;
-      cursor: pointer;
-      padding: 10px;
-      text-align: center;
-      transition: 0.3s;
-    }
-    
-    .tabcontent {
-      padding: 1rem;
-      border: 1px solid #00f; /* Azul */
-    }
-    
-    table {
-      width: 100%;
-    }
-    
-    th, td {
-      padding: 0.5rem;
+      margin-bottom: 10px;
     }
   }
-
-  .logodomercado{
+  
+  /* Estilização da tabela e dos botões */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
     text-align: center;
-    justify-content: center;
-    display: flex;
   }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  .produtovalido {
+    color: #009900;
+  }
+  
+  .produtovencido {
+    color: #ff0000;
+  }
+  
+  /* di dos botões */
+  button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Ajuste de espaçamento */
+  form {
+    margin-bottom: 20px;
+  }
+  
