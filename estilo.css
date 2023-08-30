@@ -149,3 +149,55 @@ button[type="submit"]:hover {
     transform: translateY(0);
   }
 }
+
+/* Estilos para telas menores */
+@media (max-width: 768px) {
+  
+  /* Estilo do cabeçalho */
+header {
+  /* ... */
+  padding: 10px 0;
+  text-align: center;
+}
+
+/* Estilo da tabela de produtos */
+#lista table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+#lista th,
+#lista td {
+  /* ... */
+  padding: 5px; /* Reduza o padding para economizar espaço */
+}
+
+/* Estilo dos formulários */
+input[type="text"],
+input[type="date"],
+select,
+textarea {
+  width: 100%;
+  padding: 5px; /* Reduza o padding para economizar espaço */
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+button[type="submit"] {
+  /* ... */
+  padding: 5px 10px; /* Reduza o padding para economizar espaço */
+  font-size: 12px; /* Use uma fonte menor */
+}
+
+/* Estilo da seção de resultados de pesquisa */
+.resultado-item {
+  /* ... */
+  padding: 10px; /* Reduza o padding para economizar espaço */
+  margin-bottom: 10px; /* Aumente o espaçamento inferior */
+}
+
+
+}
