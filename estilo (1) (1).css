@@ -1,0 +1,151 @@
+/* Reset padrão */
+body, h1, h2, h3, p, ul, ol, li {
+  margin: 0;
+  padding: 0;
+}
+
+/* Estilo do corpo */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f7f7f7;
+  color: #333;
+  transition: background-color 0.3s ease;
+  line-height: 1.6;
+}
+
+/* Estilo do cabeçalho */
+header {
+  background-color: #007BFF;
+  color: #FFFFFF;
+  padding: 10px 0;
+  text-align: center;
+}
+
+/* Estilo do logotipo */
+.logomercado {
+  text-align: center;
+  padding: 20px;
+}
+
+.logomercado img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Estilo das abas de navegação */
+.tabs {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.tablink {
+  background-color: #007BFF;
+  color: #FFFFFF;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  margin: 0 10px;
+}
+
+.tablink.active {
+  background-color: #0056b3;
+}
+
+/* Estilo dos formulários */
+.tabcontent {
+  display: none;
+  animation: fade-in 0.5s ease;
+  background-color: #FFFFFF;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px; 
+  margin-top: 30px; 
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+button[type="submit"] {
+  background-color: #007BFF;
+  color: #FFFFFF;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* Estilo da tabela de produtos */
+#lista table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+#lista th,
+#lista td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.produtovalido {
+  color: #008000;
+}
+
+.produtovencido {
+  color: #FF0000;
+}
+
+/* Estilo para a seção de resultados de pesquisa */
+#resultadosPesquisa {
+  margin-top: 30px;
+}
+
+.resultado-item {
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 20px; /* Reduzir o padding para aumentar o espaçamento interno */
+  margin-bottom: 20px; /* Aumentar o espaçamento inferior */
+}
+
+.resultado-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Animação de fade-in */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
