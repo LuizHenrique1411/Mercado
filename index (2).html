@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="estilo.css">
+  <title>Controle de Produtos</title>
+</head>
+<body>
+
+  <div class="logomercado">
+    <source src="M10.mp4" type="video/mp4" width: 300px;>
+  </div>
+  
+<main>
+  <nav class="tabs">
+    <button class="tablink" onclick="openTab(event, 'cadastro')">Cadastrar Produto</button>
+    <button class="tablink" onclick="openTab(event, 'pesquisa')">Pesquisar Produto</button>
+    <button class="tablink" onclick="openTab(event, 'lista')">Lista de Produtos</button>
+  </nav>
+  
+  <section id="cadastro" class="tabcontent">
+    <h2>Cadastrar Produto</h2>
+    <form id="cadastroForm">
+
+      <label for="codigo">Código do Produto:</label>
+      <input type="text" id="codigo" name="codigo" pattern="[0-9]{13}" required title="O código do produto deve ter exatamente 13 dígitos numéricos.">
+
+
+      <label for="nome">Nome do Produto:</label>
+      <input type="text" id="nome" name="nome" required><br><br>
+  
+      <label for="vencimento">Data de Vencimento:</label>
+      <input type="date" id="vencimento" name="vencimento" required>    
+      
+      <label for="comentarios">Informações Adicionais:</label>
+        <textarea id="comentarios" name="comentarios" rows="4" cols="50"></textarea><br><br>
+  
+      <label for="setor">Setor do Produto:</label>
+      <select id="setor" name="setor" required>
+        <option value="corredor1">Corredor 1</option>
+        <option value="corredor2">Corredor 2</option>
+        <option value="corredor3">Corredor 3</option>
+        <option value="geladeira1">Geladeira 1</option>
+        <option value="geladeira2">Geladeira 2</option>
+        <option value="geladeira3">Geladeira 3</option>
+      </select><br><br>
+  
+      <button type="submit">Cadastrar</button>
+      <button type="submit" onclick="clearCadastroForm()">Limpar</button>
+    </form>
+    <div id="consoleOutput" style="border: 1px solid #ccc; padding: 10px; margin-top: 20px;"></div>
+  </section>
+  
+  <section id="pesquisa" class="tabcontent">
+    <h2>Pesquisar Produto</h2>
+    <input type="text" id="pesquisar" placeholder="Digite o nome do produto">
+    <button type="submit" onclick="pesquisarProduto()">Pesquisar</button>
+    
+    <div id="resultadosPesquisa"></div> <!-- Aqui serão mostrados os resultados da pesquisa -->
+  </section>
+  
+  
+  
+  <section id="lista" class="tabcontent">
+    <h2>Lista de Produtos</h2>
+    <label for="filtroSetor">Filtrar por Setor:</label>
+    <select id="filtroSetor" onchange="filterProductsBySetor()">
+      <option value="todos">Todos</option>
+      <option value="corredor1">Corredor 1</option>
+      <option value="corredor2">Corredor 2</option>
+      <option value="corredor3">Corredor 3</option>
+      <option value="geladeira1">Geladeira 1</option>
+      <option value="geladeira2">Geladeira 2</option>
+      <option value="geladeira3">Geladeira 3</option>
+    </select>
+    <table id="productTable">
+      <tr>
+        <th>Código</th>
+        <th>Nome</th>
+        <th>Data de Vencimento</th>
+        <th>Setor</th>
+        <th>Comentários</th> 
+        <th>Editar</th>
+        <th>Deletar</th>
+      </tr>
+      
+      <!-- As linhas dos produtos serão adicionadas aqui dinamicamente -->
+    </table>
+
+  </section>
+
+  <section id="edicao" class="tabcontent" style="display: none;">
+    <h2>Editar Produto</h2>
+    <form id="edicaoForm">
+      <input type="hidden" id="editRowIndex" value="">
+      <label for="editCodigo">Código do Produto:</label>
+      <input type="text" id="editCodigo" name="editCodigo" required><br><br>
+  
+      <label for="editNome">Nome do Produto:</label>
+      <input type="text" id="editNome" name="editNome" required><br><br>
+  
+      <label for="editVencimento">Data de Vencimento:</label>
+      <input type="date" id="editVencimento" name="editVencimento" required><br><br>
+  
+      <label for="editSetor">Setor do Produto:</label>
+      <select id="editSetor" name="editSetor" required>
+        <option value="corredor1">Corredor 1</option>
+        <option value="corredor2">Corredor 2</option>
+        <option value="corredor3">Corredor 3</option>
+        <option value="geladeira1">Geladeira 1</option>
+        <option value="geladeira2">Geladeira 2</option>
+        <option value="geladeira3">Geladeira 3</option>
+      </select><br><br>
+  
+      <label for="editComentarios">Comentários:</label> <!-- Novo campo de comentários -->
+      <textarea id="editComentarios" name="editComentarios" rows="4"></textarea><br><br>
+  
+      <button type="button" onclick="updateProduct()">Atualizar</button>
+    </form>
+  </section>
+  <br><br>
+
+</main>
+
+<script>
+    // Função para carregar os produtos do localStorage e preencher a tabela
+    function loadProductsFromStorage() {
+  var products = JSON.parse(localStorage.getItem("products")) || [];
+  var productTable = document.getElementById("productTable");
+
+  products.forEach(function (product, index) {
+    var newRow = productTable.insertRow(-1);
+    newRow.setAttribute("data-index", index);
+
+    var newCellCodigo = newRow.insertCell(0);
+    var newCellNome = newRow.insertCell(1);
+    var newCellVencimento = newRow.insertCell(2);
+    var newCellSetor = newRow.insertCell(3);
+    var newCellComentarios = newRow.insertCell(4); // Nova célula para os comentários
+    var newCellEditar = newRow.insertCell(5);
+    var newCellDeletar = newRow.insertCell(6);
+
+    newCellCodigo.innerHTML = product.codigo;
+    newCellNome.innerHTML = product.nome;
+    newCellVencimento.innerHTML = product.vencimento;
+    newCellSetor.innerHTML = product.setor;
+    newCellComentarios.innerHTML = product.comentarios; // Preencha a célula de comentários
+    newCellEditar.innerHTML = '<button onclick="editProduct(' + index + ')">Editar</button>';
+    newCellDeletar.innerHTML = '<button onclick="deleteProduct(' + index + ')">Deletar</button>';
+  });
+}
+
+
+  // Event listener para carregar produtos ao carregar a página
+  window.addEventListener("DOMContentLoaded", function () {
+    loadProductsFromStorage();
+  });
+
+  document.getElementById("cadastroForm").addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  var codigo = document.getElementById("codigo").value;
+  var nome = document.getElementById("nome").value;
+  var vencimento = document.getElementById("vencimento").value;
+  var setor = document.getElementById("setor").value;
+  var comentarios = document.getElementById("comentarios").value; // Obtém os comentários
+
+  var productTable = document.getElementById("productTable");
+  var newRow = productTable.insertRow(-1);
+
+  var newCellCodigo = newRow.insertCell(0);
+  var newCellNome = newRow.insertCell(1);
+  var newCellVencimento = newRow.insertCell(2);
+  var newCellSetor = newRow.insertCell(3);
+  var newCellComentarios = newRow.insertCell(4); // Cria a célula para os comentários
+  var newCellEditar = newRow.insertCell(5);
+  var newCellDeletar = newRow.insertCell(6);
+
+  newCellCodigo.innerHTML = codigo;
+  newCellNome.innerHTML = nome;
+  newCellVencimento.innerHTML = vencimento;
+  newCellSetor.innerHTML = setor;
+  newCellComentarios.innerHTML = comentarios; // Preenche os comentários
+  newCellEditar.innerHTML = '<button onclick="editProduct(' + (productTable.rows.length - 1) + ')">Editar</button>';
+  newCellDeletar.innerHTML = '<button onclick="deleteProduct(' + (productTable.rows.length - 1) + ')">Deletar</button>';
+
+  // Salvar o novo produto, incluindo os comentários, no localStorage
+  var products = JSON.parse(localStorage.getItem("products")) || [];
+  var newProduct = { codigo, nome, vencimento, setor, comentarios }; // Incluir os comentários
+  products.push(newProduct);
+  localStorage.setItem("products", JSON.stringify(products));
+
+  // Resto do código para limpar o formulário e exibir mensagem
+});
+
+
+
+
+
+  document.getElementById("cadastroForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+  
+    var codigo = document.getElementById("codigo").value;
+    var nome = document.getElementById("nome").value;
+    var vencimento = document.getElementById("vencimento").value;
+    var setor = document.getElementById("setor").value;
+  
+    var productTable = document.getElementById("productTable");
+    var newRow = productTable.insertRow(-1);
+  
+    var newCellCodigo = newRow.insertCell(0);
+    var newCellNome = newRow.insertCell(1);
+    var newCellVencimento = newRow.insertCell(2);
+    var newCellSetor = newRow.insertCell(3);
+    var newCellEditar = newRow.insertCell(4);
+    var newCellDeletar = newRow.insertCell(5);
+  
+    newCellCodigo.innerHTML = codigo;
+    newCellNome.innerHTML = nome;
+    newCellVencimento.innerHTML = vencimento;
+    newCellSetor.innerHTML = setor;
+    newCellEditar.innerHTML = '<button onclick="editProduct(' + (productTable.rows.length - 1) + ')">Editar</button>';
+    newCellDeletar.innerHTML = '<button onclick="deleteProduct(' + (productTable.rows.length - 1) + ')">Deletar</button>';
+  
+    document.getElementById("codigo").value = "";
+    document.getElementById("nome").value = "";
+    document.getElementById("vencimento").value = "";
+    document.getElementById("setor").value = "corredor1";
+  
+    var message = "<strong>Produto cadastrado!</strong><br>" +
+                  "<strong>Código:</strong> " + codigo + "<br>" +
+                  "<strong>Nome:</strong> " + nome + "<br>" +
+                  "<strong>Vencimento:</strong> " + vencimento + "<br>" +
+                  "<strong>Setor:</strong> " + setor;
+  
+    var consoleOutput = document.getElementById("consoleOutput");
+    consoleOutput.innerHTML = message + "<br><br>" + consoleOutput.innerHTML;
+    var savedProducts = localStorage.getItem("savedProducts");
+    savedProducts = savedProducts ? message + "<br><br>" + savedProducts : message;
+    localStorage.setItem("savedProducts", savedProducts);
+  });
+
+
+  
+  function clearCadastroForm() {
+    document.getElementById("codigo").value = "";
+    document.getElementById("nome").value = "";
+    document.getElementById("vencimento").value = "";
+    document.getElementById("setor").value = "corredor1";
+    document.getElementById("comentarios").value = "";
+  }
+  
+  function editProduct(rowIndex) {
+  var products = JSON.parse(localStorage.getItem("products")) || [];
+  var selectedProduct = products[rowIndex];
+
+  document.getElementById("editCodigo").value = selectedProduct.codigo;
+  document.getElementById("editNome").value = selectedProduct.nome;
+  document.getElementById("editVencimento").value = selectedProduct.vencimento;
+  document.getElementById("editSetor").value = selectedProduct.setor;
+  document.getElementById("editComentarios").value = selectedProduct.comentarios; // Preenche os comentários
+
+  document.getElementById("editRowIndex").value = rowIndex;
+
+  openTab(null, "edicao");
+}
+
+
+  
+function updateProduct() {
+  var rowIndex = document.getElementById("editRowIndex").value;
+
+  var codigo = document.getElementById("editCodigo").value;
+  var nome = document.getElementById("editNome").value;
+  var vencimento = document.getElementById("editVencimento").value;
+  var setor = document.getElementById("editSetor").value;
+  var comentarios = document.getElementById("editComentarios").value;
+
+  var updatedProduct = { codigo, nome, vencimento, setor, comentarios };
+
+  var products = JSON.parse(localStorage.getItem("products")) || [];
+  products[rowIndex] = updatedProduct;
+  localStorage.setItem("products", JSON.stringify(products));
+
+  openTab(null, "lista"); // Volte para a guia de lista após a atualização
+
+  // Recarregue a página após um pequeno atraso
+  setTimeout(function () {
+    location.reload();
+  },20); // Tempo de espera de 1 segundo (1000 ms)
+}
+
+
+
+  function openTab(event, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablink");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    if (event) {
+      event.currentTarget.className += " active";
+    }
+  }
+  
+  function filterProductsBySetor() {
+    var selectElement = document.getElementById("filtroSetor");
+    var selectedSetor = selectElement.value.toLowerCase();
+    var table = document.querySelector("#lista table");
+    var rows = table.querySelectorAll("tr");
+  
+    rows.forEach(function(row, index) {
+      if (index === 0) return;
+      var setorColumn = row.cells[3];
+      var setor = setorColumn.textContent.toLowerCase().replace(" ","");
+  
+      if (selectedSetor == "todos") {
+        row.style.display = "";
+      } else if(selectedSetor == setor){
+        row.style.display = "";
+      } else {
+        row.style.display = "none";
+      }
+    });
+  }
+
+  function clearConsoleOutput() {
+    var consoleOutput = document.getElementById("consoleOutput");
+    consoleOutput.innerHTML = "";
+    localStorage.removeItem("savedProducts");
+  }
+
+  // Function to search for products based on the search term
+function buscarRegistros(termo) {
+  var products = JSON.parse(localStorage.getItem("products")) || [];
+  var resultados = [];
+
+  products.forEach(function (product) {
+    if (product.nome.toLowerCase().includes(termo)) {
+      resultados.push(product);
+    }
+  });
+
+  return resultados;
+}
+
+
+function pesquisarProduto() {
+  var termoBusca = document.getElementById("pesquisar").value.toLowerCase();
+  var resultados = buscarRegistros(termoBusca);
+
+  var resultadosDiv = document.getElementById("resultadosPesquisa");
+  resultadosDiv.innerHTML = ""; 
+
+  if (resultados.length === 0) {
+    resultadosDiv.innerHTML = "<p>Nenhum resultado encontrado.</p>";
+  } else {
+    resultadosDiv.innerHTML = "<h3>Resultados da Pesquisa:</h3>";
+
+    resultados.forEach(function (product) {
+      var resultadoItem = document.createElement("div");
+      resultadoItem.classList.add("resultado-item");
+
+      resultadoItem.innerHTML =
+        "<p><strong>Código:</strong> " + product.codigo + "</p>" +
+        "<p><strong>Nome:</strong> " + product.nome + "</p>" +
+        "<p><strong>Data de Vencimento:</strong> " + product.vencimento + "</p>" +
+        "<p><strong>Setor:</strong> " + product.setor + "</p>" +
+        "<p><strong>Comentários:</strong> " + (product.comentarios || "Nenhum comentário") + "</p>";
+
+      resultadosDiv.appendChild(resultadoItem);
+    });
+  }
+}
+
+
+
+
+
+// Função para encontrar um produto pelo nome
+function encontrarProdutoPorNome(nome) {
+  var products = JSON.parse(localStorage.getItem("products")) || [];
+  return products.find(function (product) {
+    return product.nome.toLowerCase() === nome.toLowerCase();
+  });
+}
+
+function deleteProduct(index) {
+  var products = JSON.parse(localStorage.getItem("products")) || [];
+  products.splice(index, 1); // Remove o produto do array
+  localStorage.setItem("products", JSON.stringify(products));
+
+  var table = document.getElementById("productTable");
+  table.deleteRow(index + 1); // Remove a linha da tabela (index + 1 para considerar a primeira linha de cabeçalho)
+}
+
+  </script>
+
+</body>
+</html>
