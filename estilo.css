@@ -151,7 +151,7 @@ button[type="submit"]:hover {
 }
 
 /* Estilos para telas menores */
-@media (max-width: 768px) {
+@media (max-width: 700px) {
   
   /* Estilo do cabeçalho */
 header {
@@ -173,31 +173,14 @@ header {
   padding: 5px; /* Reduza o padding para economizar espaço */
 }
 
-/* Estilo dos formulários */
-input[type="text"],
-input[type="date"],
-select,
-textarea {
-  width: 100%;
-  padding: 5px; /* Reduza o padding para economizar espaço */
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
+.tabcontent {
+  display: none;
+  animation: fade-in 0.5s ease;
+  background-color: #FFFFFF;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px; 
+  margin-top: 15px; 
 }
-
-button[type="submit"] {
-  /* ... */
-  padding: 5px 10px; /* Reduza o padding para economizar espaço */
-  font-size: 12px; /* Use uma fonte menor */
-}
-
-/* Estilo da seção de resultados de pesquisa */
-.resultado-item {
-  /* ... */
-  padding: 10px; /* Reduza o padding para economizar espaço */
-  margin-bottom: 10px; /* Aumente o espaçamento inferior */
-}
-
 
 }
